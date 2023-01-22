@@ -24,3 +24,4 @@ server.route({
 });
 
 server.start();
+console.log("start server");
