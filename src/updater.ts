@@ -9,9 +9,7 @@ const client = new Client({
   auth: env.NOTION_SECRET,
 });
 
-const dbId = "0c390541-5f47-407d-9890-7e09f00f9198";
-
-export const sync = async () => {
+export const sync = async (dbId: string) => {
   const records = await client.databases
     .query({
       database_id: dbId,
