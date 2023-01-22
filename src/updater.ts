@@ -69,7 +69,7 @@ export const sync = async () => {
           number: gecko.current_price,
         },
         Marketcap: {
-          number: parseInt(gecko.market_cap.toString()),
+          number: parseInt(gecko.market_cap?.toString() || "0"),
         },
         "24Hr": {
           number: parseFloat(
@@ -80,7 +80,7 @@ export const sync = async () => {
           number: parseInt(gecko.circulating_supply.toString()),
         },
         "Total Supply": {
-          number: parseInt(gecko.total_supply.toString()),
+          number: parseInt(gecko.total_supply?.toString() || "0"),
         },
         Name: {
           title: [
