@@ -3,7 +3,7 @@ import "dotenv/config";
 import cron from "node-cron";
 import { Server } from "@hapi/hapi";
 
-cron.schedule("*/20 * * * * *", () => {
+cron.schedule("*/10 * * * * *", () => {
   console.log("Sync");
   sync();
 });
