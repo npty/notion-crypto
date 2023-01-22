@@ -4,7 +4,7 @@ import cron from "node-cron";
 import { Server } from "@hapi/hapi";
 
 cron.schedule("*/10 * * * * *", () => {
-  console.log("Sync", new Date().toLocaleDateString());
+  console.log("Sync");
   sync();
 });
 
