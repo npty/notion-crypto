@@ -31,7 +31,9 @@ server.route({
     console.log("Sync");
     const { dbId } = request.payload as any;
     await sync(dbId);
-    console.log("done");
+    return {
+      success: true,
+    };
   },
 });
 
