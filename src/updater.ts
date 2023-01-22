@@ -5,8 +5,6 @@ const env = {
   NOTION_SECRET: process.env.NOTION_SECRET,
 };
 
-console.log(env);
-
 const client = new Client({
   auth: env.NOTION_SECRET,
 });
