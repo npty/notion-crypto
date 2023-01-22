@@ -1,13 +1,6 @@
 import { sync } from "./updater.js";
 import "dotenv/config";
-import cron from "node-cron";
 import { Server } from "@hapi/hapi";
-
-// cron.schedule("*/10 * * * * *", async () => {
-//   console.log("Sync");
-//   const dbId = "0c390541-5f47-407d-9890-7e09f00f9198";
-//   await sync(dbId);
-// });
 
 const server = new Server({
   port: process.env.PORT || 3000,

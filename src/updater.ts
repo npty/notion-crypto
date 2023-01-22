@@ -10,7 +10,6 @@ const client = new Client({
 });
 
 export const sync = async (dbId: string) => {
-  console.log(env);
   const records = await client.databases
     .query({
       database_id: dbId,
