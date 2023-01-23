@@ -1,39 +1,10 @@
-import { Client } from "@notionhq/client";
+import { Notion } from "./clients/Notion";
 import fetch from "node-fetch";
 
-const env = {
-  NOTION_SECRET: process.env.NOTION_SECRET,
-};
-
-const client = new Client({
-  auth: env.NOTION_SECRET,
-});
+const notion = new Notion();
 
 export const sync = async (dbId: string) => {
-  const records = await client.databases
-    .query({
-      database_id: dbId,
-      filter: {
-        and: [
-          {
-            property: "GeckoID",
-            title: {
-              is_not_empty: true,
-            },
-          },
-        ],
-      },
-    })
-    .then((res) =>
-      res.results.map((result) => {
-        const _result = result as any;
-        const geckoId = _result.properties.GeckoID.rich_text[0].plain_text;
-        return {
-          id: _result.id,
-          geckoId,
-        };
-      })
-    );
+  const records = await notion.queryDB(dbId);
 
   const queryParams = {
     ids: records.map((record) => record.geckoId).join(","),
@@ -60,37 +31,7 @@ export const sync = async (dbId: string) => {
       console.log(record);
       continue;
     }
-    client.pages.update({
-      page_id: record.id,
-      properties: {
-        Price: {
-          number: gecko.current_price,
-        },
-        Marketcap: {
-          number: parseInt(gecko.market_cap?.toString() || "0"),
-        },
-        "24Hr": {
-          number: parseFloat(
-            (gecko.price_change_percentage_24h / 100).toFixed(4)
-          ),
-        },
-        "Circulating Supply": {
-          number: parseInt(gecko.circulating_supply.toString()),
-        },
-        "Total Supply": {
-          number: parseInt(gecko.total_supply?.toString() || "0"),
-        },
-        Name: {
-          title: [
-            {
-              text: {
-                content: gecko.name,
-              },
-            },
-          ],
-        },
-      },
-    });
+    notion.updateDB(record.id, gecko);
   }
   console.log(
     "Updated:",
